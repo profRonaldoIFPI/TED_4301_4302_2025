@@ -5,7 +5,7 @@ Projeto: Robô controlado via Bluetooth (HC-05) e driver L298N.
 
 Visão geral
 ----------
-Este projeto implementa controle básico de um robô com dois motores DC (duas rodas motrizes) usando um módulo Bluetooth HC-05 e um Arduino (PlatformIO). O app recomendado para controle é "BT Car Controller - Arduino/ESP (Giristudio)".
+Este projeto implementa controle básico de um robô com dois motores DC (duas rodas motrizes) usando um módulo Bluetooth HC-05 e um Arduino (PlatformIO). O app recomendado para controle é [BT Car Controller - Arduino/ESP (Giristudio)](https://play.google.com/store/apps/details?id=com.giristuido.bluetooth.car.controller).
 
 Principais recursos
 - Comunicação com o HC-05 usando `SoftwareSerial` (pinos configuráveis)
