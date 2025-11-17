@@ -1,4 +1,5 @@
-#include <Arduino.h>
+#include <Arduino.h> //exclua se usar o Arduino IDE
+#include <Servo.h> 
 /* display de 7 segmentos
    a 
 f     b
@@ -21,9 +22,17 @@ int digitos[10][7] =
 };
 int portas[7] = {2,3,4,5,6,7,8};
 
+Servo servo;
+
+#define SERVO 10
+#define BUZZER 9
+
 void mostraDigito(int digito);
 
 void setup() {
+  servo.attach(SERVO);
+  servo.write(0); // 0~180 
+  pinMode(BUZZER, OUTPUT);
   for(int i=2; i<=8; i++){
     pinMode(i,OUTPUT);
     digitalWrite(i,HIGH);
@@ -34,21 +43,42 @@ void setup() {
   pinMode(A3, INPUT_PULLUP);
   pinMode(A4, INPUT_PULLUP);
 } 
-int digito = 0, tempoAtual, tempoAnterior = 0, intervalo = 1000;
+int digito = 9, tempoAtual, tempoAnterior = 0, intervalo = 1000;
+bool buzz = false;
 
 void loop() {
   tempoAtual = millis(); //tempo que o arduino está ligado
   if(tempoAtual - tempoAnterior >= intervalo){ //entra aqui a cada intervalo 
     tempoAnterior = tempoAtual;
-    mostraDigito(digito);
-    digito++;
-    digito = digito>9 ? 0 : digito;
+    mostraDigito(digito); //0~9
+    digito--;//-1
+    if(buzz) tone(BUZZER,300,100); //beep
   }
-
-
-  // randomSeed(millis());
-  // digito = random(0,9); //entre 0 e 9
-  
+  if((digito==-1)||(!digitalRead(A0)){ //estoura 
+    servo.write(180); //a testar o grau suficiente
+    tone(BUZZER,1000,3000);
+  }
+  if(!digitalRead(A1)){ //conta mais rápido
+    intervalo = 500;
+  }
+  if(!digitalRead(A2)){  //volta o tempo
+    digito = 9;
+  }
+  if(!digitalRead(A3)){  //liga o buzzer
+    buzz = true;
+  }
+  if(!digitalRead(A4)){  //desarma a bomba
+    intervalo = -1;
+    #define NOTE_C7  2093
+    #define NOTE_E7  2637
+    #define NOTE_G7  3136
+    int notas[] = {NOTE_C7, NOTE_E7, NOTE_G7};
+    for (int i = 0; i < 3; i++) {
+      tone(0, notas[i]);
+      delay(160);
+      noTone(0, 0);
+    }
+  }  
 }
 inline void mostraDigito(int digito){
   for(int seg=0; seg<7; seg++){
