@@ -68,7 +68,7 @@ void setup() {
 }
 
 int tempoAtual, tempoAnterior = 0, intervalo = 1500, i = 9;
-bool buz = false, led = false;
+bool buz = false, led = false, reiniciouContador = false;
 
 void loop() {
   tempoAtual = millis();
@@ -86,25 +86,30 @@ void loop() {
     }
     i--;
   }
-  // Usa os pinos em ordem aleatória (executam enquanto o fio está conectado ao GND = LOW)
-  if(digitalRead(pinosAleatorios[0])){ 
-    intervalo = 500; //acelera o relogio
+  /* 
+    Portas definidas como INPUT_PULLUP e estão conectado ao GND, por isso o estado é invertido LOW enquanto o fio esta conectado ao GND e HIGH quando desconectado, assim o digitalRead retorna 0 (falso) quando o fio esta conectado ao GND e 1 (verdadeiro) quando desconectado.
+  */
+  if(digitalRead(pinosAleatorios[0])&&(intervalo!=intervalo/2)){ 
+    intervalo = intervalo/2; //acelera o relogio
   }
-  if(digitalRead(pinosAleatorios[1])){
+  if((digitalRead(pinosAleatorios[1]))&&(!buz)){
     buz = true; //buzzer com o relogio
   }
   if(digitalRead(pinosAleatorios[2])){ 
     i = 0; //condição pra explodir 
   }
-  if(digitalRead(pinosAleatorios[3])){
+  if((digitalRead(pinosAleatorios[3]))&&(!led)){
     led = true; //blink com o relogio
   }
-  if(digitalRead(pinosAleatorios[4])){
+  if((digitalRead(pinosAleatorios[4])&&(!reiniciouContador))){
     i = 9; //reinicia o tempo
+    reiniciouContador = true;
   }
   if(digitalRead(pinosAleatorios[5])){
     intervalo = -1; //desarma a bomba
-    animacaoCobrinha();
+    while(true){
+      animacaoCobrinha();
+    }
   }
 
 }
