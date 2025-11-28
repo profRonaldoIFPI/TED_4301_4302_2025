@@ -66,15 +66,17 @@ void loop() {
     digitalWrite(IN4, LOW);
   }
   if (valorSensorDir < limiar && valorSensorEsq >= limiar) {
-    digitalWrite(IN1, HIGH);
+    digitalWrite(IN1, HIGH); //direita
     digitalWrite(IN2, LOW);
-    digitalWrite(IN3, LOW);
+    
+    digitalWrite(IN3, LOW); //esquerda
     digitalWrite(IN4, HIGH);
   }
   if (valorSensorDir >= limiar && valorSensorEsq < limiar) {
-    digitalWrite(IN1, LOW);
+    digitalWrite(IN1, LOW); //direita
     digitalWrite(IN2, HIGH);
-    digitalWrite(IN3, HIGH);
+    
+    digitalWrite(IN3, HIGH); //esquerda
     digitalWrite(IN4, LOW);
   }
   if (valorSensorDir >= limiar && valorSensorEsq > limiar) {
